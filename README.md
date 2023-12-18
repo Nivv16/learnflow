@@ -14,6 +14,6 @@ model3 (with self learning) - created by Septian (on progress) <br />
 
 ## Dataset
 ![image](https://github.com/Nivv16/learnflow/assets/142441929/3058c1b6-0293-466e-a345-b896c059614d)  <br />
-[link](https://drive.google.com/drive/folders/1egBmZBAzGGWmXihA34IiQuudEz-7n87A?usp=sharing)
+[link](https://drive.google.com/drive/folders/1nIeAZ0a7nNCAVLQKjLEniCt8UrIthXI6?usp=sharing)
 
 

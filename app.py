@@ -1,14 +1,29 @@
+import os
 from flask import Flask, jsonify, request
 from tensorflow.keras.models import load_model
-# from tensorflow.keras.preprocessing.sequence import pad_sequences
-# import numpy as np
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from sklearn.preprocessing import LabelEncoder
+import numpy as np
 
 
 app = Flask(__name__)
 
 #load model
 model = load_model('Model_tanpa_self_learning.h5')
+tokenizer = Tokenizer()
+label_encoder = LabelEncoder()
+learning_type = ["Visual", "Auditory", "Kinesthetic"]
+y = label_encoder.fit_transform(learning_type)
 
+def model_prediction(model, Sentence):
+    tokenizer.fit_on_texts(Sentence)
+    input_sequence = tokenizer.texts_to_sequences(Sentence)
+    input_padded = pad_sequences(input_sequence)
+    prediction = model.predict(input_padded)
+    predicted_labels = [learning_type[np.argmax(pred)] for pred in prediction]
+    return predicted_labels[0]
 
 #fetching api
 @app.route("/")
@@ -27,46 +42,18 @@ def predict():
     if request.method == "POST":
         # Handle the POST request
         json_data = request.get_json()
-        if json_data is not None:
-            try:
-                #checking data type
-                data_type = type(json_data)
-                data = f'The data type is: {data_type}'
-                
-                return jsonify({
-                    "status":({
-                        "code": 200,
-                        "status": "success",
-                        "message": data,
-                        "data": json_data
-                    }),
-                })
-                # data processing
-                
-                # data final(save the final data as a variable, ex: data = )
-            
-                # preditct data final + predict score
-                # ex: learning_type = a
-                
-                #return
-                # return jsonify({
-                #     "status":({
-                #         "code": 200,
-                #         "message": "Success predicting"
-                #     }),
-                #     "data": {
-                #         "learning_types_prediction": learning_type,
-                #         #return hasil prediksi + skor prediksi
-                #     }
-                # }), 200
-            except Exception as e:
-                return jsonify({
-                    "status":({
-                        "code": 500,
-                        "message": "Internal Server Error"
-                    }),
-                    "data": None
-                }), 500
+        sentence = json_data["sentence"]
+        if sentence:
+            predicted_style = model_prediction(model, sentence)
+            return jsonify({
+                "status": {
+                    "code": 200,
+                    "message": "Success predicting",
+                },
+                "data": {
+                    "learning_type_result": predicted_style,
+                }
+            }), 200
         else:
             return jsonify({
                 "status": {
@@ -83,6 +70,8 @@ def predict():
             },
             "data": None
         }), 405
-
-if __name__=="__main__":
-    app.run()
+    
+if __name__ == "__main__":
+    app.run(debug=True,
+            host="0.0.0.0",
+            port=int(os.environ.get("PORT", 8080)))

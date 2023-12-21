@@ -39,4 +39,4 @@ model3 (with self learning) - created by Septian (on progress) <br />
 - Github to repository, deploy API, etc
 
 ## API URL Endpoint
-https://backendsema-x6blq7wjaa-et.a.run.app/api/predict 
+https://learnflow1-hus4nlwi3q-as.a.run.app/predict

@@ -28,3 +28,15 @@ model3 (with self learning) - created by Septian (on progress) <br />
 3. Send a request via Postman using raw JSON in the request body, structured as <br />
    {"sentence" : "Running is the optimal way to commence the day"}.
 4. Retrieve and review the response.
+
+
+# Tools We Use
+- Visual Studio Code to Develop the code logic.
+- Postman to test API 
+- Cloud Build to deploy API
+- Cloud Storage for archiving dataset, machine learning model, etc
+- Cloud Run to deploy API
+- Github to repository, deploy API, etc
+
+## API URL Endpoint
+https://backendsema-x6blq7wjaa-et.a.run.app/api/predict 
